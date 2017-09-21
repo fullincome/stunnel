@@ -53,9 +53,7 @@ script:
     sudo perl make_dsrf.pl &&
     sudo /etc/init.d/cprocsp restart &&
     sudo perl test-stunnel.pl ${ENGINE} &&
-    cd ../src &&
-    tar -cvzf ${TRAVIS_TAG}-${RELEASENAME}_linux-amd64.tar.gz stunnel &&
-    cd ..;
+    cd ../src && tar -cvzf ${TRAVIS_TAG}-${RELEASENAME}_linux-amd64.tar.gz stunnel && cd ..;
     export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu;
   fi
 deploy:
