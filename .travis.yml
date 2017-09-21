@@ -1,31 +1,68 @@
-sudo: false
-
+sudo: enabled
+dist: trusty
 language: c
-
 os:
-  - linux
-  - osx
-
+- linux
 compiler:
-  - gcc
-  - clang
-
+- gcc
+before install:
+- sudo apt-get -qq update
 env:
+  global:
+  - secure: JIfR5v9kTnsJG+tbJ1Lsl/62f9P22vRHAo/vR1u6sQbIxuaMqIsi4r1LoO6l347jVZUXnh6K+VC1gXtzZY1rs6to39TSDBsSpdbSGy37I0JsgixIODAvqbz8pxWscURPSTJXygBubfeXFR4jPOshCOplIxvpdzTPov/ABY3/t6+xGdHgyJi4QiAAoqCmzUuAKM3NtlE7RQiWwVjVI+M4UCrsNZcFbkYxn7FWZ1YS/zsyV63GHGPDs5fcgPSDlId056q0C3NbQw/sXcVEWEln/HuerrkrYUxrUNCItdSmyjNCx2/MPSi0PC+yk5rmIEmAf2zpCagUDn0SzZhYEjF0vQ6Lsi3XjNDUjp3221aLgYT7bmUn06j5IcplIHTw9ZATIQlBMQk0zc0vbdYR5KtA2XP40Jlg8SHBjdCO04rDfY3q5aihg9DyVq/X/qEBVfNBD/TvwyJRjenXj1eK7U7v/oZ2ufATV/WMGWZCF34MII4AswWXuIqvLKwVwKHyTnRu8QyexgdNzjIIOUlG5U0R6vTCd7uZ5vvRawwcMJEFboLXIENHgE7sJVxrul0do3nuOwcEfA5f75vYkOpvW2rkcTA5N/7zfxGYJGMaK4pZBAOp7qiee4WdSzulJJGLC9fAqgjlXzR4OXd8Nj8dDVOgg9QKCQSsqtlMYZ1L9+owwg4=
+  matrix:
+  - CSPMODE='kc2' RELEASENAME='openssl-1.0.2' ENGINE='gost_capi'
+    CONFIGURE_OPTIONS="--with-threads=fork --with-ssl=/opt/cprocsp/cp-openssl"
+  - CSPMODE='kc2' RELEASENAME='openssl-1.1.0' ENGINE='gostengy'
+    CONFIGURE_OPTIONS="--with-threads=fork --with-ssl=/opt/cprocsp/cp-openssl-1.1.0"
   - CONFIGURE_OPTIONS='--with-threads=pthread'
   - CONFIGURE_OPTIONS='--with-threads=fork'
   - CONFIGURE_OPTIONS='--with-threads=ucontext'
   - CONFIGURE_OPTIONS='--disable-ipv6 --disable-fips --disable-systemd --disable-libwrap'
-
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
     - autoconf-archive
+    - g++-4.9
     - libssl-dev
     - libwrap0-dev
     - coreutils
-
+    - g++-4.9
+install:
+- if [ -n "$CSPMODE" ]; then
+  wget https://$ACCOUNT@update.cryptopro.ru/support/stunnel/dist/csp40r3/linux-amd64_deb.tgz &&
+  tar -xvf linux-amd64_deb.tgz &&
+  sudo linux-amd64_deb/install.sh &&
+  sudo dpkg -i linux-amd64_deb/lsb-cprocsp-${CSPMODE}* &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-base_4.0.0-5_all.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-64_4.0.0-5_amd64.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-devel_4.0.0-5_all.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-gost-64_4.0.0-5_amd64.deb &&
+  sudo dpkg -i linux-amd64_deb/cprocsp-cpopenssl*;
+  sudo dpkg -i cprocsp-cpopenssl-110*;
+  fi
 before_script:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install autoconf-archive coreutils; fi
-  - autoreconf -fvi && touch src/dhparam.c
-
-script: ./configure $CONFIGURE_OPTIONS && make && make test
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install autoconf-archive coreutils; fi
+- autoreconf -fvi && touch src/dhparam.c
+script:
+- ./configure $CONFIGURE_OPTIONS && make;
+- if [ -n "$RELEASENAME" ]; then
+    cd tests &&
+    sudo perl make_dsrf.pl &&
+    sudo /etc/init.d/cprocsp restart &&
+    sudo perl test-stunnel.pl ${ENGINE} &&
+    cd ../src &&
+    tar -cvzf ${TRAVIS_TAG}-${RELEASENAME}_linux-amd64.tar.gz stunnel &&
+    cd ..;
+    export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu;
+  fi
+deploy:
+  provider: releases
+  api_key:
+    secure: d0OziU2tq48ZF+IKN+4/orIEbAKsPFQ+RzzjaFwdBXA/JyEMoF44M8PB41UOvz2LtqedjWHEbzsc9zPmY0Imezk2O8INXy4OSnbGQd+ij/kuQiupTPHzMUIr9K3/2HpObzN54dNoHLNh3pODHoqKAbyKnub82ezs/9ia9If969RK7yEIa+j3rBC40KOQZlg3LkM910JBmH49Zh+chV1ye8HlGOnInRd4ktiI48pcmvZ2dMHBKdOEFqDYFcNXKR+7WzlPac4DZx5qHHaTC5tC3HaWr6ZwmJ5BdTHkWPNU9LRIfaL/7NXsTc6Xamn076Lvht8jAyT8EC5nbzBfQPhASJAvvPfB8po7u00cR/J+zkNy7vRumPwKKBE9RT9uZAN49wIdMhYmNBU3QsmhmRZkrmFO5LEDsUf5X2Te3jImNEJoNUkN7Cqp9zIpGxOhr3QXUji2YrlNW09YSkH8H3e3oSMuZin42up8f4BjKv8tRn0ddwQMj/9GKFP8wOxLQ94lN51QHTnHhsfKi2sDSfXEaLRfK2mEyphflHOoscuvwfg7Wqvv22otGCBcOL9NnKULmY3vcx5wlZ4PmBl8OBZzHTIw6UP9k/i/se9eCZ1IsjvSMxleptOwBVpExhhKENMqdDMvP2b/QVvIi8wPYwbdUrP+ktpOWM8cQszUSf1OoJs=
+  file: src/${TRAVIS_TAG}-${RELEASENAME}_linux-amd64.tar.gz
+  on:
+    tags: true
+    condition: $RELEASENAME
