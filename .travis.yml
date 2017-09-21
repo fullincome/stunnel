@@ -10,7 +10,7 @@ before install:
 env:
   global:
   - secure: STKlqN+nxx8Lr/q/KVV0NXxLBpCGRAUlM5Q0oWpjhFUf9mdk4G10jYpRAaTkLf5S3mzxF6/lazkYHALhwK0xBljfJM0xmyi6ael+9AjtukhmEQPTM9Td6TWrUQutcb3Tmqc5IvrgW9GU23uP4fRaxfaHhhUauLr/thVn9S4TgOm90wgV5RrniFUYaDzFnuI2bYpIDyd1U9brGnPwHryiE6yWBp7OcT7vtpVQr38xI8JhiTMgtZPv61Z10my775WqeGJpIeyWy1Zgjj/pKN01nEGgLS5WTNUhWuxbP2o/FZdWZLpx5JenksjrSRskWPNOls1I+LDkgbnXK6Sr2YgdCAXRuiQPm8VPmRA0hNPU48PoKIz9TWfB134/amCXalJVytymn2663gSXUnUuBEG0jGrsDTECxoya1wW1wO2ca2R7J4yL5tnNpsOmXe0FuWZt8RKHDwSvTbFNOX/eT5qYYl49lsXVHQvk4LAJ0Vka+z7CmdfgRy6vTQzojM8VNXuBxcUn6UIfY8qhbO6i5Hqw6vGE/WW43RpZCNqNwqCNpclmxPG3l5MaizeIZenh0le6uQEgvKGKB7j/PlhAWols4nRnZmRm+jNJxm5mR1UFjanLXvYRUKNJABcGIJwf87ssUK3BvPDdmN/N2M+Wsh+7+9EPQqe3qVbfcuml1bkLLWQ=
-matrix:
+  matrix:
   - CSPMODE='kc2' RELEASENAME='openssl-1.0.2' ENGINE='gost_capi'
     CONFIGURE_OPTIONS="--with-threads=fork --with-ssl=/opt/cprocsp/cp-openssl"
   - CSPMODE='kc2' RELEASENAME='openssl-1.1.0' ENGINE='gostengy'
