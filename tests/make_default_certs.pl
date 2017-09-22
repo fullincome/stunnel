@@ -34,12 +34,6 @@ sub DisableInstallCertWindow($);
     RunCmd('MakeCertAndKeyRSA', 'openssl rsa -in ' . $DataPath . 'clnRSA.key -out ' . $DataPath . 'clnRSA.key');
     
     #make GOST certs
-    RunCmd('MakeDSRF', "/opt/cprocsp/sbin/amd64/cpconfig -hardware rndm -add cpsd -name 'cpsd rng' -level 2 ");
-    RunCmd('MakeDSRF', "/opt/cprocsp/sbin/amd64/cpconfig -hardware rndm -configure cpsd -add string /db1/kis_1 /var/opt/cprocsp/dsrf/db1/kis_1");
-    RunCmd('MakeDSRF', "/opt/cprocsp/sbin/amd64/cpconfig -hardware rndm -configure cpsd -add string /db2/kis_1 /var/opt/cprocsp/dsrf/db2/kis_1");
-    RunCmd('MakeDSRF', "cp ./mydsrf /var/opt/cprocsp/dsrf/db1/kis_1");
-    RunCmd('MakeDSRF', "cp ./mydsrf /var/opt/cprocsp/dsrf/db2/kis_1");
-    
     #new certs
     RunCmd('MakeCertGOST', "/opt/cprocsp/bin/amd64/cryptcp -creatcert -provtype 81 -silent -rdn \'CN=srv2012\' -cont \'\\\\.\\HDIMAGE\\srv2012key\' -certusage 1.3.6.1.5.5.7.3.1 -ku -du -ex -ca http://cryptopro.ru/certsrv -enable-install-root");
     RunCmd('MakeCertGOST', "/opt/cprocsp/bin/amd64/cryptcp -creatcert -provtype 81 -silent -rdn \'E=cln512ecryptopro.ru, CN=cln2012\' -cont \'\\\\.\\HDIMAGE\\cln2012key\' -certusage 1.3.6.1.5.5.7.3.2 -ku -du -both -ca http://cryptopro.ru/certsrv -enable-install-root");
