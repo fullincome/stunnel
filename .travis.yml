@@ -62,6 +62,7 @@ deploy:
   provider: releases
   api_key:
     secure: e9gd01Y7YxuRZYd49jQfsnVlFWaVq/oPWhIg6zuJIzSPtw0xrwTtXWqyMcfLxwBcxJuR5fS8gcgQyd7HrEAjG14y9luILmjL6K/GcW7DilcHBOpyI2pCdnqyaN15Iv012eA53obj1LTbmVpS7eSBweS/wFUHYOxxllZMxr6yEgQFYKeg8za8C7P/hPKZcinYtc9/ZcNMROnEsAPzR07MRldCqFc47JCDdZt3UBNae5AS4HhcqvRB/lIQCYhLWSv5riNfn2yvGlDWB07148hg7nGXakTQ7ItTbHpQb+jiWv5OLQFYl2YPBMBQHJiqk6FWnmz5zOYXwx4ydWIfJVO+hF3fHVbCdt2VD/abxunszpMMmapxEQj8c6LJ+jExWygMlI4xzRhee0NYLiI34pc3g27lBvqFHHSbVmV4WpFd+qc3X5onHRzcL5Wj8trG9jx3f53L7VJXHz9AmxsVlr73SZNRx3aox4q3ZepY9b8s9COj2zpINBAv17XzMq1wqPiJ7DD3o2qVFGRwBD1Zgcyw41Qe2kG9FgiTMSSd5D/4G6V12FRJgqC/oGIPJ/YUa5H9ohstUTctrfJNcx2Xz11Sd3p+zectUkbVpodhyKZCgLpFAX2ojPpY3TQCiEUhZeRyMpNFrZiLoAYQxv+woO2nrCKChAR80SbE3TGRvoeCCrw=
+  skip_cleanup: true
   file: 
     - "src/${TRAVIS_TAG}-${RELEASENAME}_linux-amd64.tar.gz"
   on:
