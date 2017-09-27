@@ -56,6 +56,8 @@ script:
     cd ../src && tar -cvzf ${TRAVIS_TAG}-${RELEASENAME}_linux-amd64.tar.gz stunnel && cd ..;
     export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu;
   fi
+
+after_success:
 deploy:
   provider: releases
   api_key:
