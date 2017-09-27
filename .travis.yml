@@ -44,7 +44,7 @@ install:
   sudo dpkg -i cprocsp-cpopenssl-110*;
   fi
 before_script:
-- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install autoconf-archive coreutils; fi
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install autoconf-archive; brew install netcat; fi
 - autoreconf -fvi && touch src/dhparam.c
 script:
 - ./configure $CONFIGURE_OPTIONS && make;
