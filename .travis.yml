@@ -11,9 +11,9 @@ env:
   global:
   - secure: STKlqN+nxx8Lr/q/KVV0NXxLBpCGRAUlM5Q0oWpjhFUf9mdk4G10jYpRAaTkLf5S3mzxF6/lazkYHALhwK0xBljfJM0xmyi6ael+9AjtukhmEQPTM9Td6TWrUQutcb3Tmqc5IvrgW9GU23uP4fRaxfaHhhUauLr/thVn9S4TgOm90wgV5RrniFUYaDzFnuI2bYpIDyd1U9brGnPwHryiE6yWBp7OcT7vtpVQr38xI8JhiTMgtZPv61Z10my775WqeGJpIeyWy1Zgjj/pKN01nEGgLS5WTNUhWuxbP2o/FZdWZLpx5JenksjrSRskWPNOls1I+LDkgbnXK6Sr2YgdCAXRuiQPm8VPmRA0hNPU48PoKIz9TWfB134/amCXalJVytymn2663gSXUnUuBEG0jGrsDTECxoya1wW1wO2ca2R7J4yL5tnNpsOmXe0FuWZt8RKHDwSvTbFNOX/eT5qYYl49lsXVHQvk4LAJ0Vka+z7CmdfgRy6vTQzojM8VNXuBxcUn6UIfY8qhbO6i5Hqw6vGE/WW43RpZCNqNwqCNpclmxPG3l5MaizeIZenh0le6uQEgvKGKB7j/PlhAWols4nRnZmRm+jNJxm5mR1UFjanLXvYRUKNJABcGIJwf87ssUK3BvPDdmN/N2M+Wsh+7+9EPQqe3qVbfcuml1bkLLWQ=
   matrix:
-  - CSPMODE='kc2' RELEASENAME='openssl-1.0.2' ENGINE='gost_capi'
+  - CSPMODE='kc2' RELEASENAME='openssl-1.0.2' ENGINE='gost_capi' REVISION='164682'
     CONFIGURE_OPTIONS="--with-threads=fork --with-ssl=/opt/cprocsp/cp-openssl"
-  - CSPMODE='kc2' RELEASENAME='openssl-1.1.0' ENGINE='gostengy'
+  - CSPMODE='kc2' RELEASENAME='openssl-1.1.0' ENGINE='gostengy' REVISION='164682'
     CONFIGURE_OPTIONS="--with-threads=fork --with-ssl=/opt/cprocsp/cp-openssl-1.1.0"
   - CONFIGURE_OPTIONS='--with-threads=pthread'
   - CONFIGURE_OPTIONS='--with-threads=fork'
@@ -36,12 +36,15 @@ install:
   tar -xvf linux-amd64_deb.tgz &&
   sudo linux-amd64_deb/install.sh &&
   sudo dpkg -i linux-amd64_deb/lsb-cprocsp-${CSPMODE}* &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-base_4.0.0-5_all.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-64_4.0.0-5_amd64.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-devel_4.0.0-5_all.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/161714/cprocsp-cpopenssl-110-gost-64_4.0.0-5_amd64.deb &&
-  sudo dpkg -i linux-amd64_deb/cprocsp-cpopenssl*;
-  sudo dpkg -i cprocsp-cpopenssl-110*;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-base_4.0.0-5_all.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-64_4.0.0-5_amd64.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-devel_4.0.0-5_all.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-gost-64_4.0.0-5_amd64.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-base_4.0.0-5_all.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-64_4.0.0-5_amd64.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-devel_4.0.0-5_all.deb &&
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-gost-64_4.0.0-5_amd64.deb &&
+  sudo dpkg -i cprocsp-cpopenssl-*;
   fi
 before_script:
 - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install autoconf-archive; brew install netcat; fi
