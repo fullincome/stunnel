@@ -28,7 +28,7 @@ addons:
     - g++-4.9
     - libssl-dev
     - libwrap0-dev
-    - coreutils
+    - nmap
     - g++-4.9
 install:
 - if [ -n "$CSPMODE" ]; then
@@ -47,8 +47,9 @@ install:
   sudo dpkg -i cprocsp-cpopenssl-*;
   fi
 before_script:
-- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install autoconf-archive; brew install netcat; fi
-- autoreconf -fvi && touch src/dhparam.c
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; brew install autoconf-archive nmap; fi; true
+  - autoreconf -fvi && touch src/dhparam.c
+
 script:
 - ./configure $CONFIGURE_OPTIONS && make;
 - if [ -n "$RELEASENAME" ]; then
