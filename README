@@ -1,3 +1,5 @@
+In releases collected native stunnel built with openssl. Can be used with engines gost_capi and gostengy.
+
 stunnel overview
 
 Short description
