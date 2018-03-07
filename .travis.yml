@@ -32,18 +32,18 @@ addons:
     - g++-4.9
 install:
 - if [ -n "$CSPMODE" ]; then
-  wget https://$ACCOUNT@update.cryptopro.ru/support/stunnel/dist/csp40r3/linux-amd64_deb.tgz &&
-  tar -xvf linux-amd64_deb.tgz &&
-  sudo linux-amd64_deb/install.sh &&
-  sudo dpkg -i linux-amd64_deb/lsb-cprocsp-${CSPMODE}* &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-base_5.0.10976-5_all.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-64_5.0.10976-5_amd64.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-devel_5.0.10976-5_all.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-gost-64_5.0.10976-5_amd64.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-base_5.0.10976-5_all.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-64_5.0.10976-5_amd64.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-devel_5.0.10976-5_all.deb &&
-  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-gost-64_5.0.10976-5_amd64.deb &&
+  wget https://$ACCOUNT@update.cryptopro.ru/support/stunnel/dist/csp40r3/linux-amd64_deb.tgz;
+  tar -xvf linux-amd64_deb.tgz;
+  sudo linux-amd64_deb/install.sh;
+  sudo dpkg -i linux-amd64_deb/lsb-cprocsp-${CSPMODE}*;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-base_5.0.10976-5_all.deb;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-64_5.0.10976-5_amd64.deb;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-devel_5.0.10976-5_all.deb;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-110-gost-64_5.0.10976-5_amd64.deb;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-base_5.0.10976-5_all.deb;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-64_5.0.10976-5_amd64.deb;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-devel_5.0.10976-5_all.deb;
+  wget https://update.cryptopro.ru/support/nginx-gost/bin/${REVISION}/cprocsp-cpopenssl-gost-64_5.0.10976-5_amd64.deb;
   sudo dpkg -i cprocsp-cpopenssl-*;
   fi
 before_script:
