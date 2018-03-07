@@ -32,7 +32,7 @@ addons:
     - g++-4.9
 install:
 - if [ -n "$CSPMODE" ]; then
-  wget https://$ACCOUNT@update.cryptopro.ru/support/stunnel/dist/csp40r3/linux-amd64_deb.tgz;
+  wget https://$ACCOUNT@update.cryptopro.ru/support/stunnel/dist/csp50/linux-amd64_deb.tgz;
   tar -xvf linux-amd64_deb.tgz;
   sudo linux-amd64_deb/install.sh;
   sudo dpkg -i linux-amd64_deb/lsb-cprocsp-${CSPMODE}*;
